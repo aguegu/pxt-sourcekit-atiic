@@ -1,5 +1,5 @@
-//% weight=100 color=#a96836 icon="\uf185"
-namespace AHT {
+//% weight=100 color=#3677a9 icon="\uf043"
+namespace AHT21 {
   const Address = 0x38;
 
   function array2buffer (list: number[]) {
