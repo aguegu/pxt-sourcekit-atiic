@@ -74,6 +74,7 @@ namespace Atiic {
   //% blockId="mlx90604Ambient" block="MLX90614.ambient"
   //% color=#a136a9
   export function mlx90604Ambient(): number {
+    basic.pause(10);
     pins.i2cWriteBuffer(addressMlx90604, array2buffer([0x06]), true);
     const buff = pins.i2cReadBuffer(addressMlx90604, 2);
     const v = buff.getNumber(NumberFormat.UInt16LE, 0);
@@ -83,6 +84,7 @@ namespace Atiic {
   //% blockId="mlx90604Target" block="MLX90614.target"
   //% color=#a136a9
   export function mlx90604Target(): number {
+    basic.pause(10);
     pins.i2cWriteBuffer(addressMlx90604, array2buffer([0x07]), true);
     const buff = pins.i2cReadBuffer(addressMlx90604, 2);
     const v = buff.getNumber(NumberFormat.UInt16LE, 0);
