@@ -1,8 +1,11 @@
 
-const Address = 35;
+
 
 //% weight=100 color=#000011 icon="\uf185"
-namespace BH1750 {    
+namespace BH1750 {
+
+  const Address = 35;
+
     /**
      * turn on BH1750.
      */
