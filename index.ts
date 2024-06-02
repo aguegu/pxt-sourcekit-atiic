@@ -1,4 +1,4 @@
-//% color=#a96836 icon="\f0e4"
+//% color=#a96836 icon="\uf0e4"
 namespace Atiic {
 
   function array2buffer (list: number[]) {
@@ -48,7 +48,7 @@ namespace Atiic {
 
     humidiy >>= 12;
     humidiy /= 1 << 20;
-    
+
     return humidiy;
   }
 }
