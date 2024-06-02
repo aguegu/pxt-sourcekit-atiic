@@ -51,4 +51,20 @@ namespace Atiic {
 
     return humidiy;
   }
+
+  //% blockId="aht21Temperature" block="AHT21.temperature"
+  //% color=#3677a9
+  export function aht21Temperature(): number {
+    pins.i2cWriteBuffer(addressAht21, array2buffer([0xac, 0x33, 0x08]));
+    basic.pause(80);
+
+    const buff = pins.i2cReadBuffer(addressAht21, 7);
+
+    const t1 = buff.getNumber(NumberFormat.UInt8BE, 3);
+    const t2 = buff.getNumber(NumberFormat.UInt16BE, 4);
+
+    const temperature = ((t1 % 16) * 65536 + t2 ) * 200 / 1048576 - 50;
+
+    return temperature;
+  }
 }
