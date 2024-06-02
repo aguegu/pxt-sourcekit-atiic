@@ -1,0 +1,13 @@
+{
+  "name": "Atiic",
+  "version": "0.0.1",
+  "description": "makecode Atiic Sensor Package for micro:bit",
+  "license": "MIT",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": [
+    "bh1750.ts"
+  ],  
+  "public": true
+}
