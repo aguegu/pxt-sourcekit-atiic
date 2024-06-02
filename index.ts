@@ -47,7 +47,7 @@ namespace Atiic {
     const h1 = buff.getNumber(NumberFormat.UInt16BE, 1);
     const h2 = buff.getNumber(NumberFormat.UInt8BE, 3);
 
-    const humidiy = (h1 * 256 + h2) / 1048576;
+    const humidiy = (h1 * 16 + (Math.idiv(h2, 16) )) / 1048576;
 
     return humidiy;
   }
