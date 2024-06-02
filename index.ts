@@ -44,10 +44,10 @@ namespace Atiic {
 
     const buff = pins.i2cReadBuffer(addressAht21, 7);
 
-    const humidiy = buff.getNumber(NumberFormat.UInt32BE, 1);
+    const h1 = buff.getNumber(NumberFormat.UInt16BE, 1);
+    const h2 = buff.getNumber(NumberFormat.UInt8BE, 3);
 
-    humidiy >>= 12;
-    humidiy /= 1048576;
+    const humidiy = (h1 * 256 + h2) / 1048576;
 
     return humidiy;
   }
