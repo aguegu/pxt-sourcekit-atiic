@@ -29,9 +29,9 @@ namespace Atiic {
   //% blockId="aht21Init" block="AHT21.init"
   //% color=#3677a9
   export function aht21Init(): void {
-    const status = pins.i2cReadNumber(Address, NumberFormat.UInt8BE);
+    const status = pins.i2cReadNumber(addressAht21, NumberFormat.UInt8BE);
     if (!(status & 0x08)) {
-      pins.i2cWriteBuffer(Address, array2buffer([0xbe, 0x08, 0x00]));
+      pins.i2cWriteBuffer(addressAht21, array2buffer([0xbe, 0x08, 0x00]));
       basic.pause(10);
     }
   }
@@ -39,10 +39,10 @@ namespace Atiic {
   //% blockId="aht21Humidity" block="AHT21.humidity"
   //% color=#3677a9
   export function aht21Humidiy(): number {
-    pins.i2cWriteBuffer(Address, array2buffer([0xac, 0x33, 0x08]));
+    pins.i2cWriteBuffer(addressAht21, array2buffer([0xac, 0x33, 0x08]));
     basic.pause(80);
 
-    const buff = pins.i2cReadBuffer(Address, 7);
+    const buff = pins.i2cReadBuffer(addressAht21, 7);
 
     const humidiy = buff.getNumber(NumberFormat.UInt32BE, 1);
 
