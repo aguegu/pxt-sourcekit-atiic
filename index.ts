@@ -10,8 +10,6 @@ namespace Atiic {
   }
 
   const addressBH1750 = 0x23;
-  const addressAht21 = 0x38;
-  const addressMlx90604 = 0x5a;
 
   //% blockId="bh1750Init" block="BH1750.init"
   //% color=#a96836
@@ -53,6 +51,8 @@ namespace Atiic {
     return humidiy;
   }
 
+  const addressAht21 = 0x38;
+
   //% blockId="aht21Temperature" block="AHT21.temperature"
   //% color=#3677a9
   export function aht21Temperature(): number {
@@ -69,12 +69,14 @@ namespace Atiic {
     return temperature;
   }
 
+  const addressMlx90604 = 0x5a;
+
   //% blockId="mlx90604Ambient" block="MLX90614.ambient"
   //% color=#a136a9
   export function mlx90604Ambient(): number {
     pins.i2cWriteBuffer(addressMlx90604, array2buffer([0x06]), true);
-    const buff = pins.i2cReadBuffer(addressMlx90604, 3);
-    const v = buff.getNumber(NumberFormat.UInt16BE, 0);
+    const buff = pins.i2cReadBuffer(addressMlx90604, 2);
+    const v = buff.getNumber(NumberFormat.UInt16LE, 0);
     return v * 0.02 - 273.15;
   }
 
@@ -82,8 +84,8 @@ namespace Atiic {
   //% color=#a136a9
   export function mlx90604Target(): number {
     pins.i2cWriteBuffer(addressMlx90604, array2buffer([0x07]), true);
-    const buff = pins.i2cReadBuffer(addressMlx90604, 3);
-    const v = buff.getNumber(NumberFormat.UInt16BE, 0);
+    const buff = pins.i2cReadBuffer(addressMlx90604, 2);
+    const v = buff.getNumber(NumberFormat.UInt16LE, 0);
     return v * 0.02 - 273.15;
   }
 
