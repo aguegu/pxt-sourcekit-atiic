@@ -7,8 +7,7 @@
     "core": "*"
   },
   "files": [
-    "bh1750.ts",
-    "aht21.ts"
+    "index.ts"
   ],
   "public": true
 }
