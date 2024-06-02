@@ -38,7 +38,7 @@ namespace Atiic {
 
   //% blockId="aht21Humidity" block="AHT21.humidity"
   //% color=#3677a9
-  export function aht21Humidiy(): number {
+  export function aht21Humidity(): number {
     pins.i2cWriteBuffer(addressAht21, array2buffer([0xac, 0x33, 0x08]));
     basic.pause(80);
 
@@ -46,8 +46,8 @@ namespace Atiic {
 
     const humidiy = buff.getNumber(NumberFormat.UInt32BE, 1);
 
-    humidiy >>= 12;
-    humidiy /= 1 << 20;
+    // humidiy >>= 12;
+    // humidiy /= 1 << 20;
 
     return humidiy;
   }
