@@ -46,8 +46,8 @@ namespace Atiic {
 
     const humidiy = buff.getNumber(NumberFormat.UInt32BE, 1);
 
-    // humidiy >>= 12;
-    // humidiy /= 1 << 20;
+    humidiy >>= 12;
+    humidiy /= 1048576;
 
     return humidiy;
   }
