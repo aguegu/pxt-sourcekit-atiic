@@ -146,7 +146,7 @@ namespace Atiic {
 
   const addressVl53l01 = 0x29;
 
-  function vl53l01ClearInterrupt(): voild {
+  function vl53l01ClearInterrupt(): void {
     pins.i2cWriteBuffer(addressVl53l01, array2buffer([0x00, 0x86, 0x01]));
   }
 
