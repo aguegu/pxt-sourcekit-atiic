@@ -236,25 +236,29 @@ namespace Atiic {
     pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x1c, accelerometorScale << 3]));
   }
 
-  //% blockId="mpu6050Measure" block="MPU6050.measure"
+  //% blockId="mpu6050Accelerometers" block="MPU6050.accelerometors"
   //% color=#363ea9
-  export function mpu6050Measure() {
+  export function mpu6050Accelerometers() {
     pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x3B]), true);
-    const buff = pins.i2cReadBuffer(addressMPU6050, 0x0e);
+    const buff = pins.i2cReadBuffer(addressMPU6050, 0x06);
 
     return {
-      accelerometers: {
-        x: buff.getNumber(NumberFormat.Int16BE, 0) / mpu6050Sensitivities.accelerometer,
-        y: buff.getNumber(NumberFormat.Int16BE, 2) / mpu6050Sensitivities.accelerometer,
-        z: buff.getNumber(NumberFormat.Int16BE, 4) / mpu6050Sensitivities.accelerometer,
-      },
-      temperature: buff.getNumber(NumberFormat.Int16BE, 6) / 340 + 36.53,
-      gyroscopes: {
-        x: buff.getNumber(NumberFormat.Int16BE, 8) / mpu6050Sensitivities.gyroscope,
-        y: buff.getNumber(NumberFormat.Int16BE, 10) / mpu6050Sensitivities.gyroscope,
-        z: buff.getNumber(NumberFormat.Int16BE, 12) / mpu6050Sensitivities.gyroscope,
-      },
+      x: buff.getNumber(NumberFormat.Int16BE, 0) / mpu6050Sensitivities.accelerometer,
+      y: buff.getNumber(NumberFormat.Int16BE, 2) / mpu6050Sensitivities.accelerometer,
+      z: buff.getNumber(NumberFormat.Int16BE, 4) / mpu6050Sensitivities.accelerometer,
     };
   }
+  
+  //% blockId="mpu6050Gyroscopes" block="MPU6050.gyroscopes"
+  //% color=#363ea9
+  export function mpu6050Gyroscopes() {
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x43]), true);
+    const buff = pins.i2cReadBuffer(addressMPU6050, 0x06);
 
+    return {
+      x: buff.getNumber(NumberFormat.Int16BE, 0) / mpu6050Sensitivities.gyroscope,
+      y: buff.getNumber(NumberFormat.Int16BE, 2) / mpu6050Sensitivities.gyroscope,
+      z: buff.getNumber(NumberFormat.Int16BE, 4) / mpu6050Sensitivities.gyroscope,
+    };
+  }
 }
