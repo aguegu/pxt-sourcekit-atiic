@@ -1,4 +1,4 @@
-//% color=#a96836 icon="\uf0e4"
+//% color=#a96836 icon="\uf152"
 namespace Atiic {
 
   function array2buffer (list: number[]) {
@@ -91,4 +91,56 @@ namespace Atiic {
     return v * 0.02 - 273.15;
   }
 
+  const addressSpl06 = 0x76;
+
+  const coefs = {
+    c0: 0,
+    c1: 0,
+    c00: 0,
+    c10: 0,
+    c01: 0,
+    c11: 0,
+    c20: 0,
+    c21: 0,
+    c30: 0,
+  };
+
+  //% blockId="spl06Init" block="SPL06.init"
+  //% color=#3ea936
+  export function spl06Init(): void {
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x0c, 0x89]));
+    basic.pause(40)
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x06, 0x03]));
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x07, 0x83]));
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x08, 0x07]));
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x09, 0x00]));
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x10]), true);
+    const buff = pins.i2cReadBuffer(addressSpl06, 18);
+    coefs.c0 = Math.idiv(buff.getNumber(NumberFormat.Int16BE, 0), 16);
+    coefs.c1 = (buff.getNumber(NumberFormat.Int32BE, 1) << 4) >> 20;
+    coefs.c00 = buff.getNumber(NumberFormat.Int32BE, 3) >> 12;
+    coefs.c10 = (buff.getNumber(NumberFormat.Int32BE, 5) << 4) >> 12;
+    coefs.c01 = buff.getNumber(NumberFormat.Int16BE, 0x08);
+    coefs.c11 = buff.getNumber(NumberFormat.Int16BE, 0x0a);
+    coefs.c20 = buff.getNumber(NumberFormat.Int16BE, 0x0c);
+    coefs.c21 = buff.getNumber(NumberFormat.Int16BE, 0x0e);
+    coefs.c30 = buff.getNumber(NumberFormat.Int16BE, 0x10);
+  }
+
+  //% blockId="spl06Airpressure" block="SPL06.airpressure"
+  //% color=#a136a9
+  export function spl06Airpressure(): number {
+    pins.i2cWriteBuffer(addressSpl06, array2buffer([0x00]), true);
+    const buff = pins.i2cReadBuffer(addressSpl06, 6);
+    const pRaw = buff.getNumber(NumberFormat.Int32BE, 0);
+    const tRaw = buff.getNumber(NumberFormat.Int32BE, 2) << 8 >>> 8;
+
+    const tSc = tRaw / 7864320;
+    const pSc = pRaw / 7864320;
+    
+    const pressure = coefs.c00
+      + pSc * (coefs.c10 + pSc * (coefs.c20 + pSc * coefs.c30))
+      + tSc * coefs.c01 + tSc * pSc * (coefs.c11 + pSc * coefs.c21);
+    return pressure;
+  }
 }
