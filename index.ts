@@ -238,7 +238,7 @@ namespace Atiic {
 
   //% blockId="mpu6050Measure" block="MPU6050.measure"
   //% color=#363ea9
-  export function mpu6050Measure(): object {
+  export function mpu6050Measure() {
     pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x3B]), true);
     const buff = pins.i2cReadBuffer(addressMPU6050, 0x0e);
 
