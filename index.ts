@@ -1,3 +1,26 @@
+enum MPU6050_ACCELEROMETOR_SCALES {
+  //% block="±2g"
+  SCALE_2G = 0,
+  //% block="±4g"
+  SCALE_4G = 1,
+  //% block="±8g"
+  SCALE_8G = 2,
+  //% block="±16g"
+  SCALE_16G = 3,
+}
+
+enum MPU6050_GYROSCOPE_SCALES {
+  //% block="±250°/s"
+  SCALE_250 = 0,
+  //% block="±500°/s"
+  SCALE_500 = 1,
+  //% block="±1000°/s"
+  SCALE_1000 = 2,
+  //% block="±2000°/s"
+  SCALE_2000 = 3,
+}
+
+
 //% color=#a96836 icon="\uf152"
 namespace Atiic {
 
@@ -198,28 +221,6 @@ namespace Atiic {
     gyroscope: 131.072,
     accelerometer: 16384,
   };
-
-  enum MPU6050_ACCELEROMETOR_SCALES {
-    //% block="±2g"
-    SCALE_2G = 0,
-    //% block="±4g"
-    SCALE_4G = 1,
-    //% block="±8g"
-    SCALE_8G = 2,
-    //% block="±16g"
-    SCALE_16G = 3,
-  }
-
-  enum MPU6050_GYROSCOPE_SCALES {
-    //% block="±250°/s"
-    SCALE_250 = 0,
-    //% block="±500°/s"
-    SCALE_500 = 1,
-    //% block="±1000°/s"
-    SCALE_1000 = 2,
-    //% block="±2000°/s"
-    SCALE_2000 = 3,
-  }
 
   //% blockId="mpu6050Init" block="MPU6050.init accelerometer scale: %accelerometorScale, gyroscope scale: %gyroscopeScale"
   //% color=#363ea9
