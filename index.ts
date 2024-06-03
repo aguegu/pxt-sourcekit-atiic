@@ -203,11 +203,11 @@ namespace Atiic {
     //% block="±2g"
     SCALE_2G = 0,
     //% block="±4g"
-    SCALE_2G = 1,
+    SCALE_4G = 1,
     //% block="±8g"
-    SCALE_2G = 2,
+    SCALE_8G = 2,
     //% block="±16g"
-    SCALE_2G = 3,
+    SCALE_16G = 3,
   }
 
   enum MPU6050_GYROSCOPE_SCALES {
