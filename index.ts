@@ -221,7 +221,7 @@ namespace Atiic {
     SCALE_2000 = 3,
   }
 
-  //% blockId="vl53l01Distance" block="MPU6050.init %accelerometorScale %gyroscopeScale"
+  //% blockId="mpu6050Init" block="MPU6050.init %accelerometorScale %gyroscopeScale"
   //% color=#363ea9
   export function mpu6050Init(accelerometorScale: MPU6050_ACCELEROMETOR_SCALES, gyroscopeScale: MPU6050_ACCELEROMETOR_SCALES): void {
     mpu6050Sensitivities.gyroscope = (131072 >> gyroscopeScale) / 1000;
