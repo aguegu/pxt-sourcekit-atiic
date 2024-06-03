@@ -224,8 +224,35 @@ namespace Atiic {
 
   //% blockId="mpu6050Init" block="MPU6050.init accelerometer scale: %accelerometorScale, gyroscope scale: %gyroscopeScale"
   //% color=#363ea9
-  export function mpu6050Init(accelerometorScale: MPU6050_ACCELEROMETOR_SCALES, gyroscopeScale: MPU6050_ACCELEROMETOR_SCALES): void {
+  export function mpu6050Init(accelerometorScale: MPU6050_ACCELEROMETOR_SCALES, gyroscopeScale: MPU6050_GYROSCOPE_SCALES): void {
     mpu6050Sensitivities.gyroscope = (131072 >> gyroscopeScale) / 1000;
     mpu6050Sensitivities.accelerometer = 16384 >> accelerometorScale;
+
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x6b, 0x00]));
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x19, 0x0f]));
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x1a, 0x04]));
+
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x1b, gyroscopeScale << 3]));
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x1c, accelerometorScale << 3]));
   }
+
+  export function mpu6050Measure() {
+    pins.i2cWriteBuffer(addressMPU6050, array2buffer([0x3B]), true);
+    const buff = pins.i2cReadBuffer(addressMPU6050, 0x0e);
+
+    return {
+      accelerometers: {
+        x: buff.getNumber(NumberFormat.Int16BE, 0) / mpu6050Sensitivities.accelerometer,
+        y: buff.getNumber(NumberFormat.Int16BE, 2) / mpu6050Sensitivities.accelerometer,
+        z: buff.getNumber(NumberFormat.Int16BE, 4) / mpu6050Sensitivities.accelerometer,
+      },
+      temperature: buff.getNumber(NumberFormat.Int16BE, 6) / 340 + 36.53,
+      gyroscopes: {
+        x: buff.getNumber(NumberFormat.Int16BE, 8) / mpu6050Sensitivities.gyroscope,
+        y: buff.getNumber(NumberFormat.Int16BE, 10) / mpu6050Sensitivities.gyroscope,
+        z: buff.getNumber(NumberFormat.Int16BE, 12) / mpu6050Sensitivities.gyroscope,
+      },
+    };
+  }
+
 }
