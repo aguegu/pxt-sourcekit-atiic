@@ -261,4 +261,17 @@ namespace Atiic {
       z: buff.getNumber(NumberFormat.Int16BE, 4) / mpu6050Sensitivities.gyroscope,
     };
   }
+
+  const addressAgs10 = 0x10;
+  
+  //% blockId="ags10Tvoc" block="AGS10.tvoc"
+  //% color=#a136a9
+  export function ags10Tvoc(): number {
+    pins.i2cWriteBuffer(addressAgs10, array2buffer([0x00]), true);
+    const buff = pins.i2cReadBuffer(addressAgs10, 0x05);
+    let tvoc = buff.getNumber(NumberFormat.UInt32BE, 0);
+    tvoc &= 0xffffff;
+    return tvoc;
+  }   
+
 }
